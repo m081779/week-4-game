@@ -1,0 +1,71 @@
+body, html {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.character {
+	height: 200px;
+	width: 300px;
+	display: inline-block;
+	border: 3px solid green;
+}
+
+.playerSelect {
+	border: 1px solid green;
+}
+
+.defenderSelect {
+	border: 1px solid red;
+
+}
+
+.remainingOpponents {
+	border: 1px solid purple;
+}
+
+.defenderSelect .defender {
+	height: 200px;
+	width: 300px;
+	border: 3px solid red;
+	display: inline-block;
+	/*transform: translateY(50px);*/
+	
+}
+
+.float {
+	float: left;
+}
+
+.clearfix::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.block {
+	display: block;
+}
+
+.name {
+
+}
+
+
+.hero {
+	border: 3px solid blue;
+}
+
+
+
+.defeated {
+	border: 3px solid #777;
+	opacity: 0.5;
+}
+
+
+.isHidden {
+	display: none;
+}
