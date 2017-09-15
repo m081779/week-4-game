@@ -1,75 +1,75 @@
+$(document).ready(function () {
 
-var hero;
-var currentEnemy;
-var clickCounter = 0;
+var game = {
+	character1: {
+		name: "character1",
+		HP: 100,
+		AP: 10,
+		growAP:10,
+		counterAP: 25
+	},
+
+	character2: {
+		name: "character2",
+		HP: 100,
+		AP: 10,
+		growAP:10,
+		counterAP: 25
+	},
+
+	character3: {
+		name: "character3",
+		HP: 100,
+		AP: 10,
+		growAP:10,
+		counterAP: 25
+	},
+
+	character4: {
+		name: "character4",
+		HP: 100,
+		AP: 10,
+		growAP:10,
+		counterAP: 25
+	},
+
+	hero: undefined,
+	enemy: undefined,
+	clickCounter: 0,
 
 
-var character1 = {
-	name: "character1",
-	healthPoints: 100,
-	attackPower: 10,
-	growAP:10,
-	counterAttackPower: 25
-}
-
-var character2 = {
-	name: "character2",
-	healthPoints: 100,
-	attackPower: 10,
-	growAP:10,
-	counterAttackPower: 25
-}
-
-var character3 = {
-	name: "character3",
-	healthPoints: 100,
-	attackPower: 10,
-	growAP:10,
-	counterAttackPower: 25
-}
-
-var character4 = {
-	name: "character4",
-	healthPoints: 100,
-	attackPower: 10,
-	growAP:10,
-	counterAttackPower: 25
-}
-
-function game() {
-
-
-	$('body').on('click', '.character', function () {
-		if (clickCounter===0) {
-			var hero = $(this).attr('id');
-			console.log(hero);
+	getHero: function() {
+		if (game.clickCounter===0) {
+			game.hero = $(this).attr('id');
 			$(this).addClass('hero');
 			var defender = $(this).siblings().detach();
 			defender.appendTo('.defenderSelect');
 			defender.addClass('defender');
-			clickCounter++;
+			game.clickCounter++;
 		}
-		
-	});
+	}, //end of getHero method  
 
-	$('body').on('click','.defenderSelect .defender', function () {
-		if (clickCounter===1) {
-			currentEnemy = $(this).attr('id');
+	getDefender: function () {
+		if (game.clickCounter===1) {
+			game.enemy = $(this).attr('id');
 			var remainingOpponents = $(this).siblings().detach();
 			remainingOpponents.appendTo('.remainingOpponents');
-			clickCounter++;
-		}	
-	});
+			game.clickCounter++;
+		}
+	}, //end of getDefender method
 
-	$('body').on('click', 'button', function () {
-		console.log(hero);	
-		console.log(currentEnemy);	
-	});
+	attack: function () {
+		console.log(game.hero.name);
 
-}//end of game function
+	} //end of attack method
+}//end of game object
+
+	$('body').on('click', '.character', game.getHero);
+
+	$('body').on('click','.defenderSelect .defender', game.getDefender);
+
+	$('body').on('click', 'button', game.attack);
 
 
-
-
-$(document).ready(game);
+});//end of document.ready function 
 
