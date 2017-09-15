@@ -3,53 +3,63 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Role Playing Game</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-	<div class="container">
+	<div class="container-fluid">
 
-		<div class="row">
+		<div class="row main-row1">
+			<div class="col-md-4 col-md-offset-1">
+				<div class="row">
+					<div id="textArea" class="textArea col-md-12">
+				
+					</div>
+				</div>
 
-			<button>Click to attack</button>
+				<div class="row">
+					<button class="col-md-12 btn btn-default">Click to attack</button>
+				</div>
 
-			<div class="playerSelect">	
-
+			</div> <!-- text area column end -->
+			<div class="col-md-4 col-md-offset-2 playerSelect">
 				<div class="character" id="character1">
-					<h3 class="name">character1</h3>
-					<h3 class="hp"></h3>
+					<h4 class="">Hit points: <span class="hp"></span></h4>
 				</div>
 
 				<div class="character" id="character2">
-					<h3 class="name">character2</h3>
-					<h3 class="hp"></h3>
+					<h4 class="">Hit points: <span class="hp"></span></h4>
 				</div>
 
 				<div class="character" id="character3">
-					<h3 class="name">character3</h3>
-					<h3 class="hp"></h3>
+					<h4 class="">Hit points: <span class="hp"></span></h4>
 				</div>
 
 				<div class="character" id="character4">
-					<h3 class="name">character4</h3>
-					<h3 class="hp"></h3>
+					<h4 class="">Hit points: <span class="hp"></span></h4>
 				</div>
 
+			</div> <!-- player select column -->
+		</div> <!-- row end -->
 
 
-			</div> <!-- playerSelect end -->
-			
+		<div class="row main-row2">
 
+			<div class="col-md-2 col-md-offset-3  heroArea">
+				<h3 class="text-center">Player</h3>
+			</div>
 
-			<div class="defenderSelect">
+			<div class="col-md-2  enemyArea">
+				<h3 class="text-center">Defender</h3>
+			</div>
 
-			</div> <!-- defenderSelect end -->
-
-			<div class="remainingOpponents">	
-
+			<div class="col-md-4 col-md-offset-1  remainingOpponents">
+				<h3 class="text-center">Remaining Opponents</h3>
 			</div>
 
 		</div> <!-- row end -->
+
 
 	</div> <!-- container end -->
 
