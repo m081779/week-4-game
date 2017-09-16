@@ -97,7 +97,27 @@ $(document).ready(function () {
 			game.clickCounter++;
 		}
 	}, //end of getHero method  
+	playbackgroundMusic: function () {
+		var snd1  = new Audio();
+		var src1  = document.createElement("source");
+		src1.type = "audio/mpeg";
+		src1.src  = "assets/audio/background-music.mp3";
+		snd1.appendChild(src1);
+		console.log('music firing');
 
+		snd1.play();
+	},
+
+	playPunchSound: function () {
+		var snd2  = new Audio();
+		var src2  = document.createElement("source");
+		src2.type = "audio/mpeg";
+		src2.src  = "assets/audio/Punch.mp3";
+		snd2.appendChild(src2);
+		console.log('music firing');
+
+		snd2.play();
+	},
 	//method that selects the current defender
 	getDefender: function () {
 		//conditional ensures only one defender is chosen
@@ -132,7 +152,7 @@ $(document).ready(function () {
 		var message = ['Get him!', 'Don\'t stop!','You\'ve got him on the ropes!', 'He\'s no match for you!', 'You\'ve done this before...', 'I wouldn\'t mess with you!', 'You\'re one tough son of a BUG!', 'Service guarantees citizenship.  Would you like to know more?'];
 		game.writeInstructions(message[random]);
 
-
+		game.playPunchSound();
 		//variables to store values of hero and foe HP after attack
 		var heroCalc = game[game.hero].HP -= game[game.enemy].counterAP;
 		var enemyCalc = game[game.enemy].HP -= game[game.hero].AP;
@@ -255,6 +275,7 @@ $(document).ready(function () {
 
 		//on page load, headers are hidden, HP values are written to screen,
 		//and start state instructions are written to #textArea
+		game.playbackgroundMusic();
 		game.writeSpansHP();
 		game.hideHeaders();
 		game.writeInstructions('Choose a bug to begin');
