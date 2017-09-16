@@ -1,28 +1,22 @@
 $(document).ready(function () {
-	$('.heroArea h3').hide();
-	$('.enemyArea h3').hide();
-	$('.remainingOpponents h3').hide();
-	// game.writeHP();
 
 
 
  var game = {
 
-	
-	
 	"character1": {
 		name: "character1",
 		HP: 100,
 		AP: 10,
 		growAP:10,
-		counterAP: 100
+		counterAP: 10
 	},
 
 	"character2": {
 		name: "character2",
 		HP: 100,
-		AP: 10,
-		growAP:10,
+		AP: 50,
+		growAP:50,
 		counterAP: 25
 	},
 
@@ -41,19 +35,29 @@ $(document).ready(function () {
 		growAP:10,
 		counterAP: 25
 	},
-	// id: '',
+
 	hero: '',
 	enemy: '',
 	clickCounter: 0,
 	winCounter: 0,
-	endState: false,
+
+
 
 	startState: function () {
 		location.reload()
 	},
 
+	hideHeaders: function () {
+		$('.heroArea h3').hide();
+		$('.enemyArea h3').hide();
+		$('.remainingOpponents h3').hide();
+	},
+
+	writeInstructions: function (inputText) {
+		$('.textArea').html('<h1>BUGZ</h1><p>Welcome to BUGZ: Fight or Die!</p><p>'+inputText+'</p>');
+	},
+
 	writeHP: function () {
-		// console.log('writeHP firing')
 		$('.character').each(function (i) {
 		 	 id = $(this).attr('id');
 		 	$(this).find('span').text(game[id].HP);
@@ -61,6 +65,7 @@ $(document).ready(function () {
 	},
 	getHero: function() {
 		if (game.clickCounter===0) {
+			game.writeInstructions('Choose the bug you want to destroy!');
 			game.hero = $(this).attr('id');
 
 			$(this).siblings().addClass('rotate').css({
@@ -82,33 +87,44 @@ $(document).ready(function () {
 
 	getDefender: function () {
 		if (game.clickCounter===1) {
-			// $(this).css({
-			// 	'transform': "rotateY(180deg)"
-			// });
+			$('body').on('click', 'button', game.attack);
+			game.writeInstructions("Don't stop attacking until you've won!");
 			$('.enemyArea h3').show();
 			$('.remainingOpponents h3').show();
 			game.enemy = $(this).attr('id');
 			var defender = $(this).siblings().detach();
 			defender.addClass('defender')
 					.appendTo('.remainingOpponents');
-			// var remainingOpponents = $(this).siblings().detach();
-			$("#"+ game.enemy).appendTo('.enemyArea');
+			$("#"+ game.enemy).addClass('foe').appendTo('.enemyArea');
 			game.clickCounter++;
 		}
 	}, //end of getDefender method
 
 	attack: function () {
-
+		var random = Math.floor(Math.random()*8);
+		var message = ['Get him!', 'Don\'t stop!','You\'ve got him on the ropes!', 'He\'s no match for you!', 'You\'ve done this before...', 'I wouldn\'t mess with you!', 'You\'re one tough son of a BUG!', 'Service guarantees citizenship.  Would you like to know more?'];
+		game.writeInstructions(message[random]);
+		game.animate();
 		var heroCalc = game[game.hero].HP -= game[game.enemy].counterAP;
 		var enemyCalc = game[game.enemy].HP -= game[game.hero].AP;
 		game.writeHP(heroCalc, enemyCalc );
 		game[game.hero].AP+=game[game.hero].growAP
+		game.getNewEnemy();
 		game.removeEnemy();
 		game.checkLoss();
 		game.checkWin();
-		game.getNewEnemy();
 
 	}, //end of attack method
+
+	animate: function () {
+		console.log('animate firing');
+		$('.hero').css({
+			'animation': 'animateLeft 1s 1'
+		});
+		$('.foe').css({
+			'animation': 'animateRight 1s 1'
+		});
+	},
 
 	writeHP: function (input1, input2) {
 		var enemyHP = $("#" + game.enemy + " .hp");
@@ -121,11 +137,13 @@ $(document).ready(function () {
 	removeEnemy: function () {
 		var localEnemy = $('#'+game.enemy);
 		if (game[game.enemy].HP<=0) {
+			game.writeInstructions('Choose another victim!');
 			localEnemy.remove();
 			game.enemy = '';
 			game.clickCounter--;
 			game.winCounter++;
 			console.log("win counter: ", game.winCounter);
+			$('body').off('click', 'button', game.attack);
 		}
 	},
 
@@ -133,6 +151,7 @@ $(document).ready(function () {
 		if (game.clickCounter===1) {
 			$(this).detach().appendTo('.enemyArea');
 			game.enemy = $(this).attr('id');
+			$('body').on('click', 'button', game.attack);
 			game.clickCounter++;
 		}
 	},
@@ -140,46 +159,46 @@ $(document).ready(function () {
 	checkWin: function () {
 
 		if (game.winCounter===3){
+			console.log('win firing');
+			game.writeInstructions('You\'ve won!  You\'re KING of the BUGZ!');
 			$('body').off('click', '.character', game.getHero);
-
-		$('body').off('click','.defenderSelect .character', game.getDefender);
-
-		$('body').off('click', '.remainingOpponents .character', game.getNewEnemy)
-		
-		$('body').off('click', 'button', game.attack);
+			$('body').off('click','.defenderSelect .character', game.getDefender);
+			$('body').off('click', '.remainingOpponents .character', game.getNewEnemy)			
+			$('body').off('click', 'button', game.attack);
 			game.endState = true;
-			$('.textArea').text('YOU WIN!');
 			setTimeout(game.startState, 4000);
 		}
 	},
 
 	checkLoss: function () {
 		if (game[game.hero].HP<=0) {
+			game.writeInstructions('You\'ve lost, but time is a circle.  Your time will come again!');
 			$('body').off('click', '.character', game.getHero);
-
-		$('body').off('click','.defenderSelect .character', game.getDefender);
-
-		$('body').off('click', '.remainingOpponents .character', game.getNewEnemy)
-		
-		$('body').off('click', 'button', game.attack);
+			$('body').off('click','.defenderSelect .character', game.getDefender);
+			$('body').off('click', '.remainingOpponents .character', game.getNewEnemy)			
+			$('body').off('click', 'button', game.attack);
 			game.endState = true;
-			$('.textArea').text('YOU LOSE!');
 			setTimeout(game.startState, 4000);
 		}
 	}
 }//end of game object
 
-		// game.writeHP();
+		$('.character').each( function (i, val){
+			var id = $(this).attr('id');
+			$(this).find('.hp').text(game[id].HP);
+		});
 
-	if (!game.endstate) {
-		console.log(game.endState)
+		game.hideHeaders();
+		game.writeInstructions('Choose a bug to begin');
+
+
 		$('body').on('click', '.character', game.getHero);
 
 		$('body').on('click','.defenderSelect .character', game.getDefender);
 
 		$('body').on('click', '.remainingOpponents .character', game.getNewEnemy)
 		
-		$('body').on('click', 'button', game.attack);
-	}	
+		// $('body').on('click', 'button', game.attack);
+
 });//end of document.ready function 
 
