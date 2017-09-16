@@ -189,7 +189,8 @@ $(document).ready(function () {
 			//to ensure that user has time to process the victory
 			setTimeout(function () {
 				localEnemy.remove();
-			},500);
+			},1000);
+			localEnemy.fadeTo("slow", 0, function () {});
 			//sets the current enemy to an empty string to stop code from executing on it
 			game.enemy = '';
 			//decrements the clickCounter so that another enemy may be chosen only once
@@ -238,6 +239,7 @@ $(document).ready(function () {
 		//conditional checking if hero has lost all HP
 		if (game[game.hero].HP<=0) {
 			//if true, instructions are written to the screen
+			$('.hero').fadeTo("slow", 0, function () {});
 			game.writeInstructions('You\'ve lost, but time is a circle.  Your time will come again!');
 			//disables all click events
 			$('body').off('click', '.character', game.getHero);
