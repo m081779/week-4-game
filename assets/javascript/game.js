@@ -117,13 +117,22 @@ $(document).ready(function () {
 	}, //end of attack method
 
 	animate: function () {
-		console.log('animate firing');
-		$('.hero').css({
-			'animation': 'animateLeft 1s 1'
-		});
-		$('.foe').css({
-			'animation': 'animateRight 1s 1'
-		});
+
+		$('.hero').removeClass('animateL');
+		$('.foe').removeClass('animateR');
+		setTimeout(function () {
+			$('.hero').addClass('animateL')
+		}, 50);
+		setTimeout(function () {
+			$('.foe').addClass('animateR')
+		}, 50);
+		// console.log('animate firing');
+		// $('.hero').css({
+		// 	'animation': 'animateLeft 1s 1'
+		// });
+		// $('.foe').css({
+		// 	'animation': 'animateRight 1s 1'
+		// });
 	},
 
 	writeHP: function (input1, input2) {
@@ -138,7 +147,9 @@ $(document).ready(function () {
 		var localEnemy = $('#'+game.enemy);
 		if (game[game.enemy].HP<=0) {
 			game.writeInstructions('Choose another victim!');
-			localEnemy.remove();
+			setTimeout(function () {
+				localEnemy.remove();
+			},500);
 			game.enemy = '';
 			game.clickCounter--;
 			game.winCounter++;
