@@ -47,7 +47,6 @@ $(document).ready(function () {
 		src1.type = "audio/mpeg";
 		src1.src  = "assets/audio/background-music.mp3";
 		snd1.appendChild(src1);
-
 		snd1.play();
 	},//end of playBackgroundMusic method
 
@@ -58,7 +57,6 @@ $(document).ready(function () {
 		src2.type = "audio/mpeg";
 		src2.src  = "assets/audio/Punch.mp3";
 		snd2.appendChild(src2);
-
 		snd2.play();
 	},//end of playPunchSound method
 
@@ -69,32 +67,32 @@ $(document).ready(function () {
 		src3.type = "audio/mpeg";
 		src3.src  = "assets/audio/Insect-Sound.mp3";
 		snd3.appendChild(src3);
-
 		snd3.play();
 	},//end of playInsectSound method
 
+	//method that plays win sound effect
 	playWinSound: function () {
 		var snd4  = new Audio();
 		var src4  = document.createElement("source");
 		src4.type = "audio/mpeg";
 		src4.src  = "assets/audio/win-music.mp3";
 		snd4.appendChild(src4);
-
 		snd4.play();
 	},//end of playWinSound method
 
+	//method that plays loss sound effect
 	playLossSound: function () {
 		var snd5  = new Audio();
 		var src5  = document.createElement("source");
 		src5.type = "audio/mpeg";
 		src5.src  = "assets/audio/loss-music.mp3";
 		snd5.appendChild(src5);
-
 		snd5.play();
-	},//end of playLoseSound method
+	},//end of playLossSound method
 
 	//method that reloads the page when game is over
 	startState: function () {
+		//Restarts the background music
 		document.getElementById('background').play();
 		//creates "disposable" character objects that we can modify
 		//the values of and then rewrite them when startState is called
@@ -308,9 +306,8 @@ $(document).ready(function () {
 			localEnemy.fadeTo("slow", 0, function () {});
 			//sets the current enemy to an empty string to stop code from executing on it
 			game.enemy = '';
-
+			//resets counterAttack variable 
 			game.counterAttack = true;
-
 			//decrements the clickCounter so that another enemy may be chosen only once
 			game.clickCounter--;
 			//increments the winCounter to enable checkWin() to determine win state
@@ -348,11 +345,11 @@ $(document).ready(function () {
 			//disables all click events
 			$('body').off('click', '.character', game.getHero);
 			$('body').off('click','.defenderSelect .character', game.getDefender);
-			$('body').off('click', '.remainingOpponents .character', game.getNewEnemy)			
+			$('body').off('click', '.remainingOpponents .character', game.getNewEnemy);	
 			$('body').off('click', 'button', game.attack);
 			//increments the number of wins for display
 			game.writeWin++
-			//and resets the game with a 4 second delay
+			//and resets the game with a 3.5 second delay
 			setTimeout(game.startState, 3500);
 		}
 	},//end of checkwin method
@@ -370,7 +367,7 @@ $(document).ready(function () {
 			//disables all click events
 			$('body').off('click', '.character', game.getHero);
 			$('body').off('click','.defenderSelect .character', game.getDefender);
-			$('body').off('click', '.remainingOpponents .character', game.getNewEnemy)			
+			$('body').off('click', '.remainingOpponents .character', game.getNewEnemy);	
 			$('body').off('click', 'button', game.attack);
 			//increments the number of losses for display
 			game.writeLoss++
