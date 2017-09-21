@@ -38,6 +38,8 @@ $(document).ready(function () {
 	writeLoss: 0,
 	heroHP: '',
 	enemyHP: '',
+	playerHit: 0,
+	enemyHit: 0,
 	counterAttack: true,
 
     //method that plays background music
@@ -118,6 +120,10 @@ $(document).ready(function () {
 		game.hideHeaders();
 		game.writeInstructions('Choose a bug to begin');
 		game.writeSpansHP();
+
+		
+		$('.playerSelect').removeClass('becomeTexty col-md-4');
+		$('.playerSelect p').text('');
 		game.hero = '';
 		game.enemy = '';
 		game.clickCounter = 0;
@@ -140,6 +146,16 @@ $(document).ready(function () {
 	writeInstructions: function (inputText) {
 		setTimeout(function () {$('.textArea').html('<h1 id="title">BUGZ</h1><p id="subtitle">Welcome to BUGZ: Fight or Die!</p><p id="instructions">' + inputText + '</p>Number of wins: ' + game.writeWin + '<p></p><p>Number of losses: ' + game.writeLoss + '</p>'), 50});
 	},//end of writeInstructions method
+
+	createTextField: function () {
+		$('.playerSelect').addClass('becomeTexty col-md-4');
+	},
+
+	writeHitText: function () {
+		game.playerHit = '<p class="hit-text">You have attacked for <span id="player-hit">'+game.hero.AP+'</span> damage!</p>';
+		game.enemyHit = '<p class="hit-text">The enemy counter attacked for <span id="enemy-hit">'+game.enemy.counterAP+'</span> damage!</p>';
+		$('.playerSelect').html(game.playerHit + game.enemyHit);
+	},
 
 	//writes the HP data of the character objects to the screen
 	writeSpansHP: function () {
@@ -179,6 +195,8 @@ $(document).ready(function () {
 			$(this).siblings().addClass('rotate');
 			//re-rotates the h4 elements so text won't be backwards
 			$('.rotate h4').addClass('rotate');
+
+
 			//shows the header for .heroArea
 			$('.heroArea h3').show();
 			//adds .defenderSelect so that click event can differentiate
@@ -214,6 +232,7 @@ $(document).ready(function () {
 				   .appendTo('.remainingOpponents');
 			//adds .foe to defender and moves them to .enemyArea
 			$(this).addClass('foe').appendTo('.enemyArea');
+			game.createTextField();
 			//increments clickCounter to ensure only one enemy is chosen
 			game.clickCounter++;
 		}
@@ -249,9 +268,8 @@ $(document).ready(function () {
 		game.calculateEnemyHP();
 		game.calculateHeroHP();
 		//writes the calculated HP value to the screen
-		game.writeHP(heroHP, enemyHP);
-		//increments the AP of the hero by the original AP value
-		console.log('counterAttack',game.counterAttack);	
+		game.writeHP(heroHP, enemyHP);	
+		game.writeHitText();
 		//removes the enemy from the screen, and checks win/loss conditions
 		game.removeEnemy();
 		game.checkLoss();
@@ -333,12 +351,18 @@ $(document).ready(function () {
 		}
 	},//end of getNewEnemy method
 
+	// modal: function (text) {
+		
+	// 	$('.modal').fadeIn('fast').text(text);
+	// },
+
 	//method that checks win state conditions
 	checkWin: function () {
 		//conditional checks if all three enemies are defeated
 		if (game.winCounter===3){
 			//if true, it writes instructions to the screen
 			game.writeInstructions('You\'ve won!  You\'re KING of the BUGZ!');
+			// game.modal('You\'ve won!  You\'re KING of the BUGZ!');
 			//plays win music
 			document.getElementById('background').pause();
 			game.playWinSound();
@@ -361,6 +385,7 @@ $(document).ready(function () {
 			//if true, instructions are written to the screen
 			$('.hero').fadeTo("slow", 0, function () {});
 			game.writeInstructions('You\'ve lost, but time is a circle.  Your time will come again!');
+			// game.modal('You\'ve lost, but time is a circle.  Your time will come again!');
 			//plays loss music
 			document.getElementById('background').pause();
 			game.playLossSound();
